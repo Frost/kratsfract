@@ -5,6 +5,7 @@ defmodule KratsFract.Mixfile do
     [app: :kratsfract,
      version: "0.0.1",
      elixir: "~> 1.0",
+     escript: [main_module: KratsFract],
      deps: deps]
   end
 
@@ -12,7 +13,7 @@ defmodule KratsFract.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger]]
+    []
   end
 
   # Dependencies can be Hex packages:

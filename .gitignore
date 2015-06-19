@@ -1,4 +1,7 @@
+*~
 /_build
 /deps
+/kratsfract
 erl_crash.dump
 *.ez
+*.pgm
