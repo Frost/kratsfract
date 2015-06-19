@@ -1,0 +1,2 @@
+defmodule KratsFract do
+end
