@@ -18,12 +18,12 @@ defmodule Complex do
   end
 
   def sqr(z) do
-    %{real: z.real * z.real - z.imag * z.imag,
-      imag: 2 * z.real * z.imag}
+    %Complex{real: z.real * z.real - z.imag * z.imag,
+             imag: 2 * z.real * z.imag}
   end
 
   def plus(z1, z2) do
-    %{real: z1.real + z2.real, imag: z1.imag + z2.imag}
+    %Complex{real: z1.real + z2.real, imag: z1.imag + z2.imag}
   end
 
   def julia(_z, _c, i, max_i) when i > max_i do
@@ -37,6 +37,3 @@ defmodule Complex do
   end
 
 end
-
-
-

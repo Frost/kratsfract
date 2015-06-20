@@ -13,12 +13,13 @@ defmodule KratsFract do
       aspect = width / height
       w_2 = div width, 2
       h_2 = div height, 2
-      %{real: scale * aspect * (x - w_2) / w_2, imag: scale * (y - h_2) / h_2}
+      %Complex{real: scale * aspect * (x - w_2) / w_2,
+               imag: scale * (y - h_2) / h_2}
     end
     c2v = if options[:mandelbrot] do
-      fn(z) -> Complex.julia(%{real: 0, imag: 0}, z, 0, maxiter) end
+      fn(z) -> Complex.julia(%Complex{}, z, 0, maxiter) end
     else
-      fn(z) -> Complex.julia(z, %{real: -0.75, imag: 0.14}, 0, maxiter) end
+      fn(z) -> Complex.julia(z, %Complex{real: -0.75, imag: 0.14}, 0, maxiter) end
     end
 
     file = File.open! "foo.pgm", [:write]
