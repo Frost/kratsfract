@@ -10,7 +10,7 @@ defmodule KratsFract do
 
     p2c = makeTransform(width, height, options[:scale] || 1.2)
     c2v = if options[:mandelbrot] do
-      fn(z) -> Complex.julia({0, 0}, z, 0, maxiter) end
+      fn(z) -> Complex.julia({0.0, 0.0}, z, 0, maxiter) end
     else
       fn(z) -> Complex.julia(z, {-0.75, 0.14}, 0, maxiter) end
     end
