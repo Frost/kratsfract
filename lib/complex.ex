@@ -3,10 +3,6 @@ defmodule Complex do
 
   defstruct real: 0.0, imag: 0.0
 
-  def abs(re, im) do
-      :math.pow(re*re + im*im, 0.5)
-  end
-
   @doc "The absolute value of a complex number"
   def zabs(z) do
       :math.pow(z.real*z.real + z.imag*z.imag, 0.5)
