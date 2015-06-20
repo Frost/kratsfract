@@ -19,9 +19,38 @@ defmodule KratsFract do
     IO.binwrite file, "P5\n"
     IO.binwrite file, "#{width} #{height}\n"
     IO.binwrite file, "#{maxiter}\n"
-    IO.binwrite file, (for row <- 0..height-1,
-                           column <- 0..width-1,
-                       do: c2v.(p2c.(column, row)))
+    for row <- 0 .. height - 1, column <- 0 .. width - 1, into: [] do
+      {column, row}
+    end
+    |> Stream.chunk(1200)
+    |> Enum.map(fn chunk ->
+      Task.async(fn ->
+        for {column, row} <- chunk, do:
+          c2v.(p2c.(column, row))
+      end)
+    end)
+    |> Enum.map(&Task.await/1)
+    |> (fn data -> IO.binwrite(file, data) end).()
+    #   Task.async(fn ->
+    #     c2v.(p2c.(column, row))
+    #   end)
+    # end
+    # |> Enum.map(fn task -> Task.await(task) end)
+    # 0 .. height - 1
+    # |> Enum.map(fn row ->
+    #   Task.async(fn ->
+    #     0 .. width - 1
+    #     |> Enum.map(fn column ->
+    #       column |> p2c.(row) |> c2v.()
+    #     end)
+    #   end)
+    # end)
+    # |> Enum.map(fn task -> Task.await(task) end)
+    # |> (fn data -> IO.binwrite(file, data) end).()
+  end
+
+  defp calculate_row({column, row}, c2v, p2c) do
+    c2v.(p2c.(column, row))
   end
 
   @doc "Create a transform for image coordinates to complex number"
