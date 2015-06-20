@@ -10,9 +10,9 @@ defmodule KratsFract do
 
     p2c = makeTransform(width, height, options[:scale] || 1.2)
     c2v = if options[:mandelbrot] do
-      fn(z) -> Complex.julia(%Complex{}, z, 0, maxiter) end
+      fn(z) -> Complex.julia({0, 0}, z, 0, maxiter) end
     else
-      fn(z) -> Complex.julia(z, %Complex{real: -0.75, imag: 0.14}, 0, maxiter) end
+      fn(z) -> Complex.julia(z, {-0.75, 0.14}, 0, maxiter) end
     end
 
     file = File.open! "foo.pgm", [:write]
@@ -29,6 +29,6 @@ defmodule KratsFract do
     w_2 = div width, 2
     h_2 = div height, 2
     s = scale / min(w_2, h_2)
-    fn(x, y) -> %Complex{real: s * (x - w_2), imag: s * (y - h_2)} end
+    fn(x, y) -> {s * (x - w_2), s * (y - h_2)} end
   end
 end

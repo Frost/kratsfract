@@ -1,25 +1,22 @@
 defmodule Complex do
   @moduledoc "Working with complex numbers."
 
-  defstruct real: 0.0, imag: 0.0
-
   @doc "The absolute value of a complex number"
-  def zabs(z) do
-      :math.pow(z.real*z.real + z.imag*z.imag, 0.5)
+  def zabs({real, imag}) when is_float(real) and is_float(imag) do
+      :math.pow(real * real + imag * imag, 0.5)
   end
 
   @doc "The square of abs(z), to avoid calculating the root"
-  def zabs2(z) do
-      z.real*z.real + z.imag*z.imag
+  def zabs2({real, imag}) when is_float(real) and is_float(imag) do
+      real*real + imag*imag
   end
 
-  def sqr(z) do
-    %Complex{real: z.real * z.real - z.imag * z.imag,
-             imag: 2 * z.real * z.imag}
+  def sqr({real, imag}) when is_float(real) and is_float(imag)  do
+    {real * real - imag * imag, 2 * real * imag}
   end
 
-  def plus(z1, z2) do
-    %Complex{real: z1.real + z2.real, imag: z1.imag + z2.imag}
+  def plus({real1, imag1}, {real2, imag2})  when is_float(real1) and is_float(imag1) and is_float(real2) and is_float(imag2) do
+    {real1 + real2, imag1 + imag2}
   end
 
   def julia(_z, _c, i, max_i) when i > max_i do
