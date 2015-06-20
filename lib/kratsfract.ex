@@ -6,16 +6,9 @@ defmodule KratsFract do
                        mandelbrot: :boolean])
     width = options[:width] || 800 # 1920
     height = options[:height] || 600 # 1080
-    scale = options[:scale] || 1.2
     maxiter = 255
 
-    p2c = fn(x, y) ->
-      aspect = width / height
-      w_2 = div width, 2
-      h_2 = div height, 2
-      %Complex{real: scale * aspect * (x - w_2) / w_2,
-               imag: scale * (y - h_2) / h_2}
-    end
+    p2c = makeTransform(width, height, options[:scale] || 1.2)
     c2v = if options[:mandelbrot] do
       fn(z) -> Complex.julia(%Complex{}, z, 0, maxiter) end
     else
@@ -29,5 +22,13 @@ defmodule KratsFract do
     IO.binwrite file, (for row <- 0..height-1,
                            column <- 0..width-1,
                        do: c2v.(p2c.(column, row)))
+  end
+
+  @doc "Create a transform for image coordinates to complex number"
+  def makeTransform(width, height, scale) do
+    w_2 = div width, 2
+    h_2 = div height, 2
+    s = scale / min(w_2, h_2)
+    fn(x, y) -> %Complex{real: s * (x - w_2), imag: s * (y - h_2)} end
   end
 end
