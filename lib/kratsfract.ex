@@ -26,11 +26,8 @@ defmodule KratsFract do
     IO.binwrite file, "P5\n"
     IO.binwrite file, "#{width} #{height}\n"
     IO.binwrite file, "#{maxiter}\n"
-    IO.binwrite file, Enum.map(0..height-1, fn(row) ->
-      for column <- 0..width-1 do
-        c2v.(p2c.(column, row))
-      end
-    end)
-    IO.binwrite file, "\n"
+    IO.binwrite file, (for row <- 0..height-1,
+                           column <- 0..width-1,
+                       do: c2v.(p2c.(column, row)))
   end
 end
